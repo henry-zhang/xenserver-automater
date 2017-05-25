@@ -29,7 +29,7 @@ EOF
 if [ ! "$DM" = "" ]; then
   echo "        dns-search $DM" >> /etc/network/interfaces
 fi
-/sbin/ifconfig eth0 down
+/sbin/ifconfig eth0 0
 /etc/init.d/networking restart
 
 exit 0
