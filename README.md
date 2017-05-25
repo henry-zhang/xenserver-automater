@@ -11,8 +11,10 @@
 
 Copy usr/sbin/xe-set-* into /usr/sbin/ and chmod +x
 
-## Install Upstart script on guest VM:
+## Install init script on guest VM:
 
 Copy etc/init/xe-automate.conf into /etc/init/
 
+## Add to systemd start unit
+update-rc.d xe-automate defaults 
 ## Reboot
