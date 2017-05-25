@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+# xe-automator	reconfig-network from XenStore.
+#
+# chkconfig: 2345 14 86
+# description: reconfig-network from XenStore custom data.
+#
+### BEGIN INIT INFO
+# Provides:          xe-automator
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: reconfig-network from XenStore custom data.
+# Description:      reconfig-network from XenStore custom data.
+### END INIT INFO
+
+LANG="C"
+export LANG
+
+if [ -f /etc/init.d/functions ] ; then
+. /etc/init.d/functions
+else
+action()
+{
+    descr=$1 ; shift
+    cmd=$@
+    echo -n "$descr "
+    $cmd
+    ret=$?
+    if [ $ret -eq 0 ] ; then
+	echo "OK"
+    else
+	echo "Failed"
+    fi
+    return $ret
+}
+fi
+
+
+reconfig()
+{
+ /usr/sbin/xe-set-network
+ /usr/sbin/xe-set-hostname
+ /usr/sbin/generate-sshd-keys
+exit 0
+}
+
+
+
+case "$1" in
+  reconfig)
+       reconfig 
+	;;
+  start)
+       reconfig
+        ;;
+  *)
+        # do not advertise unreasonable commands that there is no reason
+        # to use with this device
+        echo $"Usage: $0 reconfig"
+        exit 1
+esac
+
+exit $?
